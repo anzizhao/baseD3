@@ -111,15 +111,13 @@ var csv_text = 'date,sugar\n\
     draw_graph('threedays_hours_3rd_width', json, opts);
 
     var days = d3.time.day.range(first, last);
-    var pp_day = 45;
+    var pp_day = 130;
     opts = { range: d3.time.hour.range(first, last),
                  width: width, margin: 0 };
     opts.xScale = d3.time.scale()
         .domain( [first, last] )
         .range(  [0, pp_day * days.length] )
         ;
-    opts.tick_step = 1;
-    opts.ticks = d3.time.days;
     draw_graph('day_pp_day', json, opts);
 
     /*
@@ -229,11 +227,6 @@ function draw_graph(name, data, our) {
   // viewport is wider than our scaling defined... rescale
   if (x.range()[1] < width) {
     last = x.invert(width);
-    /*
-    console.log('old last is', x.range()[1],
-                 '(', x.domain()[1], ')',
-                'however try', x.invert(width), width);
-    */
     
     x = x.copy( ).domain( [first, last] )
      .range( [0, width ] );
