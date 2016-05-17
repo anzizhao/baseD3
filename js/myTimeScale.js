@@ -45,11 +45,11 @@ var csv_text = 'date,sugar\n\
 
     function changeHandler(event) {
         if ( this.value === 'a' ) {
-            draw.render()
+            draw.changeRenderParam('a')
         } else if ( this.value === 'b' ) {
-            draw.render()
+            draw.changeRenderParam('b')
         }   else if ( this.value === 'c' ) {
-            draw.render()
+            draw.changeRenderParam('c')
         }   
     }
 
@@ -169,16 +169,67 @@ function draw_graph(name, data, our) {
   chart.append('g')
       .attr('class', 'y axis');
 
-  d3.select(selector + " svg").call(d3.behavior.zoom()
-    //  By supplying only .x() any pan/zoom can only alter the x scale.  y
-    //  scale remains fixed.
-    .x(x)
-    .scaleExtent( scaleExtent )
-    .scale( 1 )
-    .on("zoom", render)
-  );
+  var bx  ; 
+  var param = 'a' 
+  draw_graph.changeRenderParam  =  function ( _param) {
+      param = _param 
+      var first = our.range[0]
+      var last  = our.range[1]
+      switch(param) {
+        case 'b': 
+            bx = x.copy().domain([first, last])
+            .range(  [0, 13*3 ] )
+            //转化
+            last = bx.invert(width)
+            bx  = bx.copy().domain( [first, last] )
+            .range( [0, width ] );
 
-  function render () {
+            xAxis.ticks(d3.time.month, 1)
+            break;
+        case 'c': 
+            bx = x.copy().domain([first, last])
+            .range(  [0, 130*3 ] )
+
+            //转化
+            last = bx.invert(width)
+            bx  = bx.copy().domain( [first, last] )
+            .range( [0, width ] );
+
+
+            xAxis.ticks(d3.time.day , 1)
+            break;
+        case 'a': 
+        default: 
+            bx = x.copy().domain([first, last])
+            .range(  [0, 1.3*3] )
+
+            //转化
+            last = bx.invert(width)
+            bx  = bx.copy().domain( [first, last] )
+            .range( [0, width ] );
+
+
+            xAxis.ticks(d3.time.year, 1)
+
+      }
+      d3.select(selector + " svg").call( d3.behavior.zoom()
+                                        //  By supplying only .x() any pan/zoom can only alter the x scale.  y
+                                        //  scale remains fixed.
+                                        .x(bx)
+                                        .scaleExtent( scaleExtent )
+                                        .scale( 1 )
+                                        .on("zoom", render )
+                                       );
+
+     render()
+  }
+
+
+
+
+  draw_graph.changeRenderParam();
+
+  function render  () {
       bars.selectAll("rect")
       .attr( 'x', safeties.x)
       .attr( 'y', safeties.y)
@@ -186,19 +237,33 @@ function draw_graph(name, data, our) {
       .attr( 'height', safeties.height)
       ;
 
+
+      var first = our.range[0]
+      var last  = our.range[1]
+
       dots.selectAll("circle")
-      .attr( 'cx', function( d, i ) { return x( d.date ) - .5; } )
+      .attr( 'cx', function( d, i ) { return bx( d.date ) - .5; } )
       .attr( 'cy', function( d ) { return (h - margin) - y( d.sugar ) + .5 } )
       ;
+      switch(param) {
+        case 'b': 
+            xAxis.scale(bx)
 
-      xAxis.scale(x);
+            break;
+        case 'c': 
+            xAxis.scale(bx)
+            break;
+        case 'a': 
+        default: 
+            xAxis.scale(bx)
+      }
 
       chart.select(".x.axis").call(xAxis);
       chart.select(".y.axis").call(yAxis);
   }
 
   // Call this to place initially
-  render();
+  render()
   return draw_graph
 }
 
