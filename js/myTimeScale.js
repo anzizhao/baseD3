@@ -33,8 +33,14 @@ var csv_text = 'date,sugar\n\
 
     var days = d3.time.day.range(first, last);
     var pp_day = 0.1;
-    opts = { range: d3.time.day.range(first, last),
-                 width: width, margin: 0 };
+    opts = { 
+        range: d3.time.day.range(first, last),
+        width: width, 
+        margin: 0 ,
+        originStart: d3.time.day.offset(new Date(start), -1),
+        originEnd: d3.time.day.offset(new Date(start), 1),
+    };
+    
     opts.xScale = d3.time.scale()
         .domain( [first, last] )
         .range(  [0, pp_day * days.length] )
@@ -175,10 +181,13 @@ function draw_graph(name, data, our) {
       param = _param 
       var first = our.range[0]
       var last  = our.range[1]
+      var day = 120 * 2
       switch(param) {
         case 'b': 
+            first = d3.time.month.round( d3.time.month.offset( our.originStart, -1)  )
+            last = d3.time.month.round( d3.time.month.offset( our.originEnd, 1) )
             bx = x.copy().domain([first, last])
-            .range(  [0, 13*3 ] )
+            .range(  [0, day  ] )
             //转化
             last = bx.invert(width)
             bx  = bx.copy().domain( [first, last] )
@@ -187,8 +196,10 @@ function draw_graph(name, data, our) {
             xAxis.ticks(d3.time.month, 1)
             break;
         case 'c': 
+            first = d3.time.day.round(  our.originStart  )
+            last = d3.time.day.round( our.originEnd )
             bx = x.copy().domain([first, last])
-            .range(  [0, 130*3 ] )
+            .range(  [0, day  ] )
 
             //转化
             last = bx.invert(width)
@@ -200,8 +211,11 @@ function draw_graph(name, data, our) {
             break;
         case 'a': 
         default: 
+            first = d3.time.year.round( d3.time.year.offset( our.originStart, -1)  )
+            last = d3.time.year.round( d3.time.year.offset( our.originEnd, 1) )
+
             bx = x.copy().domain([first, last])
-            .range(  [0, 1.3*3] )
+            .range(  [0, day] )
 
             //转化
             last = bx.invert(width)
