@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Glucose levels</title>
+
+    <link rel="stylesheet" href="css/timeScale.css">
+
+</head>
+
+<body>
+
+  <div id="lab">
+    <div id="timeline">
+        <span class="title">
+            timeline  
+        </span>
+        <div class="view"></div>
+    </div>
+  </div>
+  <div id="clone">
+    <span class="title"></span>
+    <div class="view"></div>
+  </div>
+  <div >
+        <form>
+            <input type="radio" name="dateInput" value="y" />
+            <input type="radio" name="dateInput" value="m" />
+            <input type="radio" name="dateInput" value="d" />
+        </form>
+
+        <button id="clearSign" />
+            清除标记
+        </button>
+
+
+  </div>
+
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/d3/d3.min.js"></script>
+    <script src="js/myTimeScale2.js"></script>
+</body>
+
+</html>
