@@ -23,7 +23,6 @@ var csv_text = 'date,sugar\n\
     json = d3.csv.parse(csv_text);
     json.forEach(fix_row);
 
-    var url = './sugars.csv';
 
     var start = 'March 8 2011';
     //显示为一个月的开始和结束
@@ -33,7 +32,7 @@ var csv_text = 'date,sugar\n\
     console.log('first', first, 'last', last);
 
     var days = d3.time.day.range(first, last);
-    var pp_day = 90;
+    var pp_day = 0.1;
     opts = { range: d3.time.day.range(first, last),
                  width: width, margin: 0 };
     opts.xScale = d3.time.scale()
@@ -154,7 +153,7 @@ function draw_graph(name, data, our) {
       .scale(x)
       .tickSize(12, 1, 1)
       //.ticks(d3.time.month, 1)
-      .ticks(d3.time.day, 1)
+      .ticks(d3.time.year, 1)
       //.tickFormat(d3.time.format('%m/%d/%y'))
       //.tickSize(25, 18);
 
@@ -176,10 +175,10 @@ function draw_graph(name, data, our) {
     .x(x)
     .scaleExtent( scaleExtent )
     .scale( 1 )
-    .on("zoom",draw_graph.render)
+    .on("zoom", render)
   );
 
-  draw_graph.render = function () {
+  function render () {
       bars.selectAll("rect")
       .attr( 'x', safeties.x)
       .attr( 'y', safeties.y)
@@ -199,7 +198,7 @@ function draw_graph(name, data, our) {
   }
 
   // Call this to place initially
-  draw_graph.render();
+  render();
   return draw_graph
 }
 
