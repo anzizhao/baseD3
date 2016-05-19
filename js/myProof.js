@@ -10,7 +10,8 @@ function timeline(domElement) {
 
     // chart geometry
     var margin = {top: 20, right: 20, bottom: 20, left: 20},
-        outerWidth = 960,
+        //outerWidth = 960,
+        outerWidth = window.screen.width - 40,
         outerHeight = 500,
         width = outerWidth - margin.left - margin.right,
         height = outerHeight - margin.top - margin.bottom;
@@ -153,7 +154,7 @@ function timeline(domElement) {
             // The timeline never reaches into the future.
             // This is an arbitrary decision.
             // Comment out, if dates in the future should be allowed.
-            if (item.end > today) { item.end = today};
+            //if (item.end > today) { item.end = today};
         });
 
         //calculateTracks(data.items);
@@ -190,9 +191,14 @@ function timeline(domElement) {
         band.parts = [],
         band.instantWidth = 100; // arbitray value
 
+        var minDate = data.minDate || new Date() 
+
         band.xScale = d3.time.scale()
-            .domain([data.minDate, data.maxDate])
+            //.domain([data.minDate, data.maxDate])
+            .domain([minDate , new Date( minDate.getFullYear() + 3, 1, 1)])
             .range([0, band.w]);
+
+        //band.xScale.invert(data.maxDate)
 
         band.yScale = function (track) {
             return band.trackOffset + track * band.trackHeight;
@@ -346,10 +352,12 @@ function timeline(domElement) {
 
         function getHtml(element, d) {
             var html;
-            if (element.attr("class") == "interval") {
-                html = d.label + "<br>" + toYear(d.start) + " - " + toYear(d.end);
+            if (element.attr("class") == "part interval") {
+                //html = d.label + "<br>" + toYear(d.start) + " - " + toYear(d.end);
+                html = d.label + "<br>" + d.start.toLocaleDateString() + " - " + d.end.toLocaleDateString();
             } else {
-                html = d.label + "<br>" + toYear(d.start);
+                html = d.label + "<br>" + d.start.toLocaleDateString() 
+                //html = d.label + "<br>" + toYear(d.start);
             }
             return html;
         }
@@ -394,6 +402,14 @@ function timeline(domElement) {
                 function (d) { return toYear(d); }
                 //d3.time.format("%Y年")
             );
+        // 这里应该是使用继承的想法
+        if( bandName ===  'naviBand' ) {
+            axis
+            .ticks(d3.time.year, 1)
+            .tickFormat(
+                d3.time.format("%Y年")
+            )
+        } 
 
         var xAxis = chart.append("g")
             .attr("class", "axis" + " " + bandName )
@@ -418,6 +434,7 @@ function timeline(domElement) {
                 );
             }
         };
+
         xAxis.tickFormatToYear = function () {
             console.log('tickFormatToYear')
             axis
@@ -462,6 +479,8 @@ function timeline(domElement) {
 
         var band = bands[bandName];
 
+        var toMonthThreshold = 365 + 160 
+        var toYearthreshold = 365 * 11 
         function onBrush(){
             var domain = brush.empty()
                 ? band.xScale.domain()
@@ -469,11 +488,11 @@ function timeline(domElement) {
             //TODO 如果选择区域少于一年, 将上面的时间标刻改为月
            var day = ( domain[1].getTime() - domain[0].getTime() ) / (24*3600*1000)
            day = Math.floor(day)
-           var year = Math.floor( day/365  )
            var mainBand = bands["mainBand"]
-           if(  day < 365  ) {
+
+           if(  day < toMonthThreshold ) {
                mainBand.xAxis.tickFormatToMonth()
-           }  else if( year < 11 ) {
+           }  else if( day < toYearthreshold  ) {
                mainBand.xAxis.tickFormatToYear()
            } else {
                mainBand.xAxis.tickFormatToCenter()

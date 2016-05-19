@@ -92,12 +92,12 @@
     pointer-events: auto;
 }
 
-.svg {
-    border-style: solid;
-    border-width: 1px;
-    border-color: black;
-    background-color: #FFFFFF;
-}
+/*.svg {*/
+    /*border-style: solid;*/
+    /*border-width: 1px;*/
+    /*border-color: black;*/
+    /*background-color: #FFFFFF;*/
+/*}*/
 
 .tooltip {
     width: auto;
