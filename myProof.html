@@ -81,7 +81,6 @@
 
     // Read in the data and construct the timeline
     d3.csv(sourceFile, function(dataset) {
-
         timeline(domElement)
             .data(dataset)
             .band("mainBand", 0.82)
