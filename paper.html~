@@ -3,6 +3,7 @@
 		<title>D3 Axis Example</title>
 		<script src="node_modules/d3/d3.min.js"></script>
 		<script src="node_modules/paper/dist/paper-full.js"></script>
+
 		<style type="text/css">
 			
 			.axis path,
@@ -28,6 +29,6 @@
     <body>
         <canvas id="myCanvas" resize></canvas>
         <img id="test"   style="display: none;"  src="img/test2.jpg" >
-        <script src="js/paper.js"></script>
+		<script src="js/paper.js"></script>
     </body>
 </html>
