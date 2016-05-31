@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)http://devsigner.org/benchmark.html -->
+<html style="-webkit-user-select: none;">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+  <title></title>
+  <style>
+    body { margin: 0; }
+    svg, .divs {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    rect { fill: transparent; }
+    .divs div {
+      border-radius: 50%;
+      background: red;
+      position: absolute;
+    }
+    #render {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+    }
+    #framerate {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 360px;
+        height: 20px;
+        font-family: 'Helvetica Neue', 'Verdana';
+        font-size: 14px;
+    }
+    #framerate span {
+        font-weight: bold;
+    }
+    .tcanvas {
+        color: black;
+    }
+    .tsvg {
+        color: blue;
+    }
+    .tdivs {
+        color: red;
+    }
+  </style>
+  <style id="style-1-cropbar-clipper">/* Copyright 2014 Evernote Corporation. All rights reserved. */
+    .en-markup-crop-options {
+        top: 18px !important;
+        left: 50% !important;
+        margin-left: -100px !important;
+        width: 200px !important;
+        border: 2px rgba(255,255,255,.38) solid !important;
+        border-radius: 4px !important;
+    }
+
+    .en-markup-crop-options div div:first-of-type {
+        margin-left: 0px !important;
+    }
+  </style>
+
+  <script src="node_modules/paper/dist/paper-full.js"></script>
+  <script src="./node_modules/d3/d3.min.js"></script>
+</head>
+<body data-pinterest-extension-installed="cr1.39.1">
+
+    <div id="render"> </div>
+
+    <div id="framerate"><span class="tcanvas">canvas 0.24ms</span> | <span class="tsvg">svg 0.89ms</span> | <span class="tdivs">divs 1.20ms</span>
+    </div>
+
+    <canvas id="myCanvas" style="display: none;" resize></canvas>
+    <img id="test"   style="display: none;"  src="img/test3.jpg" >
+    <script src="./js/benchmark.js"></script>
+    </body>
+
+  </html>

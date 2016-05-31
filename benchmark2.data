@@ -1,0 +1,10 @@
+<canvas width="1680" height="892"></canvas>
+<svg width="1680" height="892">
+<g>
+<rect class="overlay" width="1680" height="892"></rect>
+
+<circle r="0" fill="blue" transform="translate(563,279)"></circle>
+<circle r="3.32840633764863" fill="blue" transform="translate(1072.5110713757342,644.1635917133923)"></circle>
+<circle r="6.59031320316717" fill="blue" transform="translate(1117.5118263802146,531.7078615857158)"></circle>
+<circle r="6.842707865405828" fill="blue" transform="translate(1153.1439434823853,624.1130673065012)"></circle>
+<circle r="3.0620923191308975" fill="blue" transform="translate(1182.2163229352525,535.5366577580348)"></circle>
